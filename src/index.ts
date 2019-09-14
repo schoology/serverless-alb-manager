@@ -5,7 +5,7 @@ import AwsProvider = require('serverless/plugins/aws/provider/awsProvider');
 
 import { AlbManagerOptions } from './types';
 
-class ServerlessPluginAlbManager implements Plugin {
+export class ServerlessPluginAlbManager implements Plugin {
   public hooks: Record<string, () => Promise<any>>; // tslint:disable-line:no-any
   private provider: AwsProvider;
 
@@ -82,14 +82,16 @@ class ServerlessPluginAlbManager implements Plugin {
         .required(),
     });
 
-    const { value, error } = schema.validate(this.serverless.service.custom['serverless-alb-manager']);
+    const { value, error } = schema.validate(this.serverless.service.custom['serverless-alb-manager'], {
+      abortEarly: false,
+    });
     if (error) {
       throw new Error('serverless-plugin-alb-manager: Invalid configuration. ' + error.toString());
     }
 
     // Split comma-separated values
     if (typeof value.subnetIds === 'string') {
-      value.subnetIds = value.subnetIds.split(',');
+      value.subnetIds = value.subnetIds.split(',').map((x: string) => x.trim());
     }
 
     return value;
@@ -201,4 +203,4 @@ class ServerlessPluginAlbManager implements Plugin {
   }
 }
 
-module.exports = ServerlessPluginAlbManager;
+exports = ServerlessPluginAlbManager;
