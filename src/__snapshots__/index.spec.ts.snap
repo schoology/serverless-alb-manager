@@ -1,0 +1,101 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ServerlessPluginAlbManager package:setupProviderConfiguration hook with all expected config options generates a valid cloudformation template 1`] = `
+Object {
+  "Outputs": Object {},
+  "Resources": Object {
+    "Alb": Object {
+      "Properties": Object {
+        "IpAddressType": "ipv4",
+        "Name": "dummy-stack-name-alb",
+        "Scheme": "internet-facing",
+        "SecurityGroups": Array [
+          Object {
+            "Ref": "AlbSecurityGroup",
+          },
+        ],
+        "Subnets": Array [
+          "dummy-subnet-1",
+          "dummy-subnet-2",
+        ],
+        "Tags": Array [
+          Object {
+            "Key": "dummyTag1",
+            "Value": "dummy-1",
+          },
+          Object {
+            "Key": "dummyTag2",
+            "Value": "dummy-2",
+          },
+        ],
+        "Type": "application",
+      },
+      "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+    },
+    "AlbDnsRecord": Object {
+      "Properties": Object {
+        "AliasTarget": Object {
+          "DNSName": Object {
+            "Fn::GetAtt": Array [
+              "Alb",
+              "DNSName",
+            ],
+          },
+          "HostedZoneId": Object {
+            "Fn::GetAtt": Array [
+              "Alb",
+              "CanonicalHostedZoneID",
+            ],
+          },
+        },
+        "HostedZoneName": "example.com.",
+        "Name": "dummy.domain.example.com",
+        "Type": "A",
+      },
+      "Type": "AWS::Route53::RecordSet",
+    },
+    "AlbHttpListener": Object {
+      "Properties": Object {
+        "Certificates": Array [
+          Object {
+            "CertificateArn": "dummy-certificate-arn",
+          },
+        ],
+        "DefaultActions": Array [
+          Object {
+            "FixedResponseConfig": Object {
+              "ContentType": "application/json",
+              "MessageBody": "{ \\"error\\": \\"Forbidden\\" }",
+              "StatusCode": 403,
+            },
+            "Order": 1,
+            "Type": "fixed-response",
+          },
+        ],
+        "LoadBalancerArn": Object {
+          "Ref": "Alb",
+        },
+        "Port": 443,
+        "Protocol": "HTTPS",
+      },
+      "Type": "AWS::ElasticLoadBalancingV2::Listener",
+    },
+    "AlbSecurityGroup": Object {
+      "Properties": Object {
+        "GroupDescription": "HTTPS for dummy-stack-name",
+        "GroupName": "dummy-stack-name-https",
+        "SecurityGroupIngress": Array [
+          Object {
+            "CidrIp": "0.0.0.0/0",
+            "FromPort": "443",
+            "IpProtocol": "tcp",
+            "ToPort": "443",
+          },
+        ],
+        "VpcId": "dummy-vpc-id",
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+  },
+}
+`;

@@ -7,7 +7,8 @@
   "scripts": {
     "clean-dist": "rm -rf dist",
     "lint": "tsc --noEmit && tslint './src/**/*.ts*' --format stylish -c tslint.json --project . --force",
-    "test": "jest --watch --coverage --config=configs/jest.json",
+    "test": "jest --coverage",
+    "test:watch": "yarn test --watch",
     "build": "tsc",
     "build:watch": "tsc --watch",
     "release": "yarn standard-version -n && git push --follow-tags -u origin",
@@ -31,6 +32,7 @@
     "tslint-eslint-rules": "^5.4.0",
     "tslint-plugin-prettier": "^2.0.1",
     "tslint-react": "^4.0.0",
+    "typemoq": "^2.1.0",
     "typescript": "^3.6.0"
   },
   "dependencies": {
