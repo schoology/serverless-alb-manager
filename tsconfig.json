@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": [
+      "dom",
+      "es6",
+      "dom.iterable",
+      "scripthost",
+      "es2017.object"
+    ],
+    "module": "commonjs",
+    "typeRoots" : [
+      "./types",
+      "./node_modules/@types"
+    ],
+    "sourceMap": true,
+    "forceConsistentCasingInFileNames": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "removeComments": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "preserveSymlinks": true,
+    "noEmit": false,
+    "outDir": "dist/"
+  },
+  "compileOnSave": false,
+  "include": [
+    "./src/**/*"
+  ],
+  "awesomeTypescriptLoaderOptions": {
+    "reportFiles": [
+      "./src/**/*"
+    ]
+  }
+}
