@@ -44,9 +44,6 @@ jobs:
     docker:
       - image: circleci/node:10.16
     working_directory: ~/repo
-    branches:
-      only:
-        - master
     steps:
       - attach_workspace:
           at: ~/repo
@@ -79,5 +76,9 @@ workflows:
       - deploy:
           requires:
             - validate_cloudformation
+          filters:
+            branches:
+              only:
+                - master
 
 

@@ -1,9 +1,24 @@
 {
   "name": "serverless-alb-manager",
+  "description": "A Serverless plugin that adds an HTTP ALB to your serverless project instead of an API Gateway for HTTP functions.",
   "version": "1.0.1",
   "main": "dist/index.js",
   "author": "Schoology, Inc.",
   "license": "MIT",
+  "keywords": [
+    "serverless",
+    "lambda",
+    "alb",
+    "target group",
+    "plugin"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/schoology/serverless-alb-manager.git"
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "clean-dist": "rm -rf dist",
     "lint": "tsc --noEmit && tslint './src/**/*.ts*' --format stylish -c tslint.json --project . --force",
