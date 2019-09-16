@@ -1,3 +1,4 @@
+import * as fs from 'fs';
 import * as Serverless from 'serverless';
 import Service = require('serverless/classes/Service');
 import * as TypeMoq from 'typemoq';
@@ -68,6 +69,13 @@ describe('ServerlessPluginAlbManager', () => {
       it('generates a valid cloudformation template', async () => {
         await plugin.hooks['package:setupProviderConfiguration']();
         expect(service.provider.compiledCloudFormationTemplate).toMatchSnapshot();
+
+        // Write out a JSON that will be validated during CI
+        fs.writeFileSync(
+          'template-snapshot.json',
+          // tslint:disable-next-line:no-magic-numbers
+          JSON.stringify(service.provider.compiledCloudFormationTemplate, undefined, 2),
+        );
       });
     });
 

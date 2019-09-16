@@ -108,8 +108,8 @@ export class ServerlessPluginAlbManager implements Plugin {
           SecurityGroupIngress: [
             {
               IpProtocol: 'tcp',
-              FromPort: '443',
-              ToPort: '443',
+              FromPort: 443,
+              ToPort: 443,
               CidrIp: '0.0.0.0/0',
             },
           ],
@@ -165,7 +165,7 @@ export class ServerlessPluginAlbManager implements Plugin {
               Type: 'fixed-response',
               Order: 1,
               FixedResponseConfig: {
-                StatusCode: 403,
+                StatusCode: '403',
                 ContentType: 'application/json',
                 MessageBody: '{ "error": "Forbidden" }',
               },
