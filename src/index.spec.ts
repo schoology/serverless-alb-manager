@@ -3,10 +3,12 @@ import * as Serverless from 'serverless';
 import Service = require('serverless/classes/Service');
 import * as TypeMoq from 'typemoq';
 
-const ServiceClass = require('serverless/lib/classes/Service'); // tslint:disable-line
-
-import { ServerlessPluginAlbManager } from './index';
+import { ServerlessPluginAlbManager as ServerlessPluginAlbManagerType } from './index';
 import { AlbManagerOptions } from './types';
+
+// Import class separately from types since the plugin uses CommonJS export
+const ServerlessPluginAlbManager = require('./index'); // tslint:disable-line
+const ServiceClass = require('serverless/lib/classes/Service'); // tslint:disable-line
 
 /**
  * Mock a `custom.serverless-alb-manager` config from the Service mock
@@ -18,7 +20,7 @@ const setConfig = (service: Service, config: object): void => {
 describe('ServerlessPluginAlbManager', () => {
   let serverlessMock: TypeMoq.IMock<Serverless>;
   let service: Service;
-  let plugin: ServerlessPluginAlbManager;
+  let plugin: ServerlessPluginAlbManagerType;
   let providerObject: Service['provider'];
   let validConfig: AlbManagerOptions;
 

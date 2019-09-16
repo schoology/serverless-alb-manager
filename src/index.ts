@@ -203,4 +203,4 @@ export class ServerlessPluginAlbManager implements Plugin {
   }
 }
 
-exports = ServerlessPluginAlbManager;
+module.exports = ServerlessPluginAlbManager;
