@@ -66,7 +66,7 @@ Object {
             "FixedResponseConfig": Object {
               "ContentType": "application/json",
               "MessageBody": "{ \\"error\\": \\"Forbidden\\" }",
-              "StatusCode": 403,
+              "StatusCode": "403",
             },
             "Order": 1,
             "Type": "fixed-response",
@@ -87,9 +87,9 @@ Object {
         "SecurityGroupIngress": Array [
           Object {
             "CidrIp": "0.0.0.0/0",
-            "FromPort": "443",
+            "FromPort": 443,
             "IpProtocol": "tcp",
-            "ToPort": "443",
+            "ToPort": 443,
           },
         ],
         "VpcId": "dummy-vpc-id",

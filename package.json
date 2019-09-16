@@ -7,12 +7,12 @@
   "scripts": {
     "clean-dist": "rm -rf dist",
     "lint": "tsc --noEmit && tslint './src/**/*.ts*' --format stylish -c tslint.json --project . --force",
-    "test": "jest --coverage",
+    "test": "JEST_JUNIT_OUTPUT_DIR=test-results/jest jest --coverage --reporters=\"jest-junit\" --reporters=\"default\"",
     "test:watch": "yarn test --watch",
     "build": "tsc",
     "build:watch": "tsc --watch",
-    "release": "yarn standard-version -n && git push --follow-tags -u origin",
-    "release:next": "yarn standard-version -p next-`git rev-parse --short HEAD` --skip.commit true --skip.changelog true",
+    "release": "yarn standard-version -n --releaseCommitMessageFormat \"chore(release): {{currentTag}}\n[skip ci]\" && git push --follow-tags -u origin HEAD",
+    "release:next": "yarn standard-version -p next-`git rev-parse --short HEAD` --skip.commit true --skip.changelog true --releaseCommitMessageFormat \"chore(release): {{currentTag}}\n[skip ci]\"",
     "release:dry-rnu": "yarn standard-version --dry-run"
   },
   "devDependencies": {
@@ -22,6 +22,7 @@
     "@types/serverless": "^1.18.2",
     "awesome-typescript-loader": "^5.2.1",
     "jest": "^24.8.0",
+    "jest-junit": "^8.0.0",
     "prettier": "^1.18.2",
     "serverless": "^1.52.0",
     "standard-version": "^7.0.0",
@@ -39,6 +40,6 @@
     "@hapi/joi": "^16.0.0"
   },
   "engines": {
-    "node": ">=10.15"
+    "node": ">=8"
   }
 }

@@ -1,0 +1,80 @@
+build-steps: &build-steps
+  working_directory: ~/repo
+  steps:
+    - checkout
+    - run: yarn install --frozen-lockfile
+    - run: yarn test
+    - run: yarn lint
+    - store_test_results:
+        path: test-results
+    - persist_to_workspace:
+        root: ~/repo
+        paths:
+          - .
+
+version: 2
+jobs:
+
+  build_node_8.10:
+    docker:
+      - image: circleci/node:8.10
+    <<: *build-steps
+
+  build_node_10.16:
+    docker:
+      - image: circleci/node:10.16
+    <<: *build-steps
+
+  validate_cloudformation:
+    docker:
+      - image: amaysim/cfn-python-lint
+    working_directory: ~/repo
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run:
+          name: upgrade cfn-lint
+          command: pip install --force cfn-lint
+      - run:
+          name: Show Template Source
+          command: nl ~/repo/template-snapshot.json
+      - run: cfn-lint ~/repo/template-snapshot.json
+
+  deploy:
+    docker:
+      - image: circleci/node:10.16
+    working_directory: ~/repo
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - add_ssh_keys:
+          fingerprints:
+            - "b9:68:37:f0:0c:60:ca:26:3f:10:c0:b4:74:7c:b8:27"
+      - run:
+          name: Configure git for push
+          command: git config user.email "circleci@schoology.com" && git config user.name "CircleCI"
+      - run:
+          name: Authenticate with registry
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/repo/.npmrc
+      - run:
+          name: Add github to ssh known hosts
+          # Retrieved via `ssh-keyscan -H github.com`
+          command: echo "|1|vF0KMtT19eNdkOp3NHoyhkxX2Jw=|7GVNnmbtOjVEe9B3O1hqLdAux3U= ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==" >> ~/.ssh/known_hosts
+      - run: yarn release
+      - run: yarn publish
+
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build_node_8.10
+      - build_node_10.16
+      - validate_cloudformation:
+          requires:
+            - build_node_10.16
+      - deploy:
+          requires:
+            - validate_cloudformation
+
+
