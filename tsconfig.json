@@ -27,9 +27,6 @@
     "outDir": "dist/"
   },
   "compileOnSave": false,
-  "include": [
-    "./src/**/*"
-  ],
   "awesomeTypescriptLoaderOptions": {
     "reportFiles": [
       "./src/**/*"
