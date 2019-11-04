@@ -4,3 +4,6 @@ node_modules
 nohup.out
 yarn-error.log
 dist
+coverage
+template-snapshot.json
+test-results

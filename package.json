@@ -1,0 +1,60 @@
+{
+  "name": "serverless-alb-manager",
+  "description": "A Serverless plugin that adds an HTTP ALB to your serverless project instead of an API Gateway for HTTP functions.",
+  "version": "1.0.1",
+  "main": "dist/index.js",
+  "author": "Schoology, Inc.",
+  "license": "MIT",
+  "keywords": [
+    "serverless",
+    "lambda",
+    "alb",
+    "target group",
+    "plugin"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/schoology/serverless-alb-manager.git"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "clean-dist": "rm -rf dist",
+    "lint": "tsc --noEmit && tslint './src/**/*.ts*' --format stylish -c tslint.json --project . --force",
+    "test": "JEST_JUNIT_OUTPUT_DIR=test-results/jest jest --coverage --reporters=\"jest-junit\" --reporters=\"default\"",
+    "test:watch": "yarn test --watch",
+    "build": "tsc --project tsconfig.build.json",
+    "build:watch": "tsc --watch",
+    "release": "yarn standard-version -n --releaseCommitMessageFormat \"chore(release): {{currentTag}}\n[skip ci]\" && git push --follow-tags -u origin HEAD",
+    "release:next": "yarn standard-version -p next-`git rev-parse --short HEAD` --skip.commit true --skip.changelog true --releaseCommitMessageFormat \"chore(release): {{currentTag}}\n[skip ci]\"",
+    "release:dry-rnu": "yarn standard-version --dry-run"
+  },
+  "devDependencies": {
+    "@types/hapi__joi": "^15.0.4",
+    "@types/jest": "^24.0.17",
+    "@types/node": "^12.7.2",
+    "@types/serverless": "^1.18.2",
+    "awesome-typescript-loader": "^5.2.1",
+    "jest": "^24.8.0",
+    "jest-junit": "^8.0.0",
+    "prettier": "^1.18.2",
+    "serverless": "^1.52.0",
+    "standard-version": "^7.0.0",
+    "ts-jest": "^24.0.2",
+    "tslint": "^5.18.0",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-consistent-codestyle": "^1.15.1",
+    "tslint-eslint-rules": "^5.4.0",
+    "tslint-plugin-prettier": "^2.0.1",
+    "tslint-react": "^4.0.0",
+    "typemoq": "^2.1.0",
+    "typescript": "^3.6.0"
+  },
+  "dependencies": {
+    "@hapi/joi": "^16.0.0"
+  },
+  "engines": {
+    "node": ">=8"
+  }
+}
