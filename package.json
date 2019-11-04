@@ -1,7 +1,7 @@
 {
   "name": "serverless-alb-manager",
   "description": "A Serverless plugin that adds an HTTP ALB to your serverless project instead of an API Gateway for HTTP functions.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "dist/index.js",
   "author": "Schoology, Inc.",
   "license": "MIT",
